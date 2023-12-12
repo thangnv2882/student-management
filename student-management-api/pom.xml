@@ -65,7 +65,6 @@
 			<systemPath>${project.basedir}/lib/db4o-8.0.276.16149-all-java5.jar</systemPath>
 		</dependency>
 
-
 	</dependencies>
 
 	<build>

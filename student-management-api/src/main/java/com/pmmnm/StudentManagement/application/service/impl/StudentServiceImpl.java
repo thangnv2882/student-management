@@ -30,8 +30,7 @@ public class StudentServiceImpl implements IStudentService {
     @Override
     public List<Student> findAll() {
         List<Student> students = new ArrayList<>();
-        EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
-        db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), "test2.db4o");
+        db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), "student-management-db.db4o");
         ObjectSet<Student> result = db.query(Student.class);
         while (result.hasNext()) {
             students.add(result.next());
@@ -48,7 +47,7 @@ public class StudentServiceImpl implements IStudentService {
     @Override
     public Output createStudent(CreateStudentInput input) {
         Student student = modelMapper.map(input, Student.class);
-        db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), "test2.db4o");
+        db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), "student-management-db.db4o");
         db.store(student);
         db.close();
         return new Output(CommonConstant.TRUE, CommonConstant.EMPTY_STRING);
