@@ -1,23 +1,26 @@
 package com.pmmnm.StudentManagement.application.service;
 
-import com.pmmnm.StudentManagement.application.input.student.CreateStudentInput;
-import com.pmmnm.StudentManagement.application.input.student.UpdateStudentInput;
 import com.pmmnm.StudentManagement.application.input.commons.Input;
+import com.pmmnm.StudentManagement.application.input.user.CreateUserInput;
+import com.pmmnm.StudentManagement.application.input.user.LoginInput;
+import com.pmmnm.StudentManagement.application.input.user.UpdateUserInput;
 import com.pmmnm.StudentManagement.application.output.common.Output;
 import com.pmmnm.StudentManagement.domain.entity.User;
 
 import java.util.List;
 
-public interface IStudentService {
+public interface IUserService {
+
+    User login(LoginInput loginInput);
 
     List<User> findAll();
 
-    User findStudentById(Input input);
+    User findUserById(Input input);
 
-    Output createStudent(CreateStudentInput input);
+    Output createUser(CreateUserInput input);
 
-    Output updateStudent(UpdateStudentInput input);
+    Output updateUser(UpdateUserInput input);
 
-    Output deleteStudent(Input input);
+    Output deleteUser(Input input);
 
 }

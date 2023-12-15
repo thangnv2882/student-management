@@ -1,66 +1,88 @@
 package com.pmmnm.StudentManagement.application.service.impl;
 
-import com.db4o.Db4oEmbedded;
-import com.db4o.ObjectContainer;
-import com.db4o.ObjectSet;
 import com.pmmnm.StudentManagement.application.constants.CommonConstant;
+import com.pmmnm.StudentManagement.application.constants.MessageConstant;
 import com.pmmnm.StudentManagement.application.input.commons.Input;
-import com.pmmnm.StudentManagement.application.input.student.CreateStudentInput;
-import com.pmmnm.StudentManagement.application.input.student.UpdateStudentInput;
+import com.pmmnm.StudentManagement.application.input.user.CreateUserInput;
+import com.pmmnm.StudentManagement.application.input.user.LoginInput;
+import com.pmmnm.StudentManagement.application.input.user.UpdateUserInput;
 import com.pmmnm.StudentManagement.application.output.common.Output;
-import com.pmmnm.StudentManagement.application.service.IStudentService;
+import com.pmmnm.StudentManagement.application.repository.UserRepository;
+import com.pmmnm.StudentManagement.application.service.IUserService;
+import com.pmmnm.StudentManagement.config.exception.NotFoundException;
 import com.pmmnm.StudentManagement.domain.entity.User;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class StudentServiceImpl implements IStudentService {
+public class UserServiceImpl implements IUserService {
 
-    private static ObjectContainer db;
+    private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
-    public StudentServiceImpl(ModelMapper modelMapper) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper) {
+        this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+    }
+
+
+    @Override
+    public User login(LoginInput loginInput) {
+        User user = userRepository.login(loginInput.getId(), loginInput.getPassword());
+        checkUserExists(user);
+        return user;
     }
 
     @Override
     public List<User> findAll() {
-        List<User> users = new ArrayList<>();
-        db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), "student-management-db.db4o");
-        ObjectSet<User> result = db.query(User.class);
-        while (result.hasNext()) {
-            users.add(result.next());
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User findUserById(Input input) {
+        User user = userRepository.findById(input.getId());
+        checkUserExists(user);
+        return user;
+    }
+
+    @Override
+    public Output createUser(CreateUserInput input) {
+        User user = userRepository.findById(input.getId());
+        if (user != null) {
+            return new Output(CommonConstant.TRUE, MessageConstant.USER_ALREADY_EXISTS);
         }
-        db.close();
-        return users;
+        user = modelMapper.map(input, User.class);
+        // TODO gen password
+        user.setPassword(RandomStringUtils.randomAlphanumeric(6));
+        userRepository.save(user);
+        return new Output(CommonConstant.TRUE, CommonConstant.CREATED);
     }
 
     @Override
-    public User findStudentById(Input input) {
-        return null;
+    public Output updateUser(UpdateUserInput input) {
+        User user = userRepository.findById(input.getId());
+        checkUserExists(user);
+        modelMapper.map(input, user);
+        userRepository.save(user);
+        return new Output(CommonConstant.TRUE, CommonConstant.UPDATED);
     }
 
     @Override
-    public Output createStudent(CreateStudentInput input) {
-        User user = modelMapper.map(input, User.class);
-        db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), "student-management-db.db4o");
-        db.store(user);
-        db.close();
-        return new Output(CommonConstant.TRUE, CommonConstant.EMPTY_STRING);
+    public Output deleteUser(Input input) {
+        User user = userRepository.findById(input.getId());
+        checkUserExists(user);
+        userRepository.delete(user);
+        return new Output(CommonConstant.TRUE, CommonConstant.DELETED);
     }
 
 
-    @Override
-    public Output deleteStudent(Input input) {
-        return null;
-    }
-
-    @Override
-    public Output updateStudent(UpdateStudentInput input) {
-        return null;
+    public static void checkUserExists(User user) {
+        if (user == null) {
+            throw new NotFoundException(MessageConstant.USER_NOT_EXISTS);
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-package com.pmmnm.StudentManagement.application.input.student;
+package com.pmmnm.StudentManagement.application.input.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,12 +9,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateStudentInput {
+public class CreateUserInput {
 
-    String id;
+    private String id;
 
-    String name;
+    private String name;
 
-    String phoneNumber;
+    private String role;
 
 }

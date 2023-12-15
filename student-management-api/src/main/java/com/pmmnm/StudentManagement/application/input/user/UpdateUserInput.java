@@ -10,11 +10,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateStudentInput {
+public class UpdateUserInput {
 
     private String id;
 
     private String name;
+
+    private String password;
 
     private String email;
 

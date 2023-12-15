@@ -5,30 +5,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Classroom {
     private String id;
 
     private String name;
 
-    private String password;
+    private String teacherId;
 
-    private String email;
+    private int creditHour;
 
-    private String role;
-
-    private String avatar;
-
-    public User(String id) {
+    public Classroom(String id) {
         this.id = id;
     }
-
-    public User(String id, String password) {
-        this.id = id;
-        this.password = password;
-    }
-
 }
