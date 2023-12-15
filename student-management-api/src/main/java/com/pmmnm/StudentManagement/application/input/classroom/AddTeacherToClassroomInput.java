@@ -1,4 +1,4 @@
-package com.pmmnm.StudentManagement.application.input.commons;
+package com.pmmnm.StudentManagement.application.input.classroom;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,8 +10,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Input {
+public class AddTeacherToClassroomInput {
 
-    private String id;
+    private String idClassroom;
+
+    private String idTeacher;
 
 }

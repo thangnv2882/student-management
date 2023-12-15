@@ -1,18 +1,19 @@
-package com.pmmnm.StudentManagement.domain.entity;
+package com.pmmnm.StudentManagement.application.input.classroom;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
+
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Student {
+public class LoginInput {
+
     private String id;
 
-    private String name;
+    private String password;
 
-    private String phoneNumber;
 }

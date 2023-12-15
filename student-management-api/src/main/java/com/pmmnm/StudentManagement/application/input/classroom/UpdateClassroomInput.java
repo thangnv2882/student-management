@@ -1,4 +1,4 @@
-package com.pmmnm.StudentManagement.application.input.student;
+package com.pmmnm.StudentManagement.application.input.classroom;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,12 +10,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateStudentInput {
+public class UpdateClassroomInput {
 
     private String id;
 
     private String name;
 
-    private String phoneNumber;
+    private Integer creditHour;
 
 }
