@@ -4,15 +4,15 @@ import com.pmmnm.StudentManagement.application.input.student.CreateStudentInput;
 import com.pmmnm.StudentManagement.application.input.student.UpdateStudentInput;
 import com.pmmnm.StudentManagement.application.input.commons.Input;
 import com.pmmnm.StudentManagement.application.output.common.Output;
-import com.pmmnm.StudentManagement.domain.entity.Student;
+import com.pmmnm.StudentManagement.domain.entity.User;
 
 import java.util.List;
 
 public interface IStudentService {
 
-    List<Student> findAll();
+    List<User> findAll();
 
-    Student findStudentById(Input input);
+    User findStudentById(Input input);
 
     Output createStudent(CreateStudentInput input);
 

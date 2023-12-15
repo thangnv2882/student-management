@@ -1,4 +1,4 @@
-package com.pmmnm.StudentManagement.application.input.student;
+package com.pmmnm.StudentManagement.application.input.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +16,8 @@ public class UpdateStudentInput {
 
     private String name;
 
-    private String phoneNumber;
+    private String email;
+
+    private String avatar;
 
 }

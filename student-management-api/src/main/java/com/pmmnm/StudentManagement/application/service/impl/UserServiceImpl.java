@@ -3,14 +3,13 @@ package com.pmmnm.StudentManagement.application.service.impl;
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
-import com.db4o.config.EmbeddedConfiguration;
 import com.pmmnm.StudentManagement.application.constants.CommonConstant;
 import com.pmmnm.StudentManagement.application.input.commons.Input;
 import com.pmmnm.StudentManagement.application.input.student.CreateStudentInput;
 import com.pmmnm.StudentManagement.application.input.student.UpdateStudentInput;
 import com.pmmnm.StudentManagement.application.output.common.Output;
 import com.pmmnm.StudentManagement.application.service.IStudentService;
-import com.pmmnm.StudentManagement.domain.entity.Student;
+import com.pmmnm.StudentManagement.domain.entity.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -28,27 +27,27 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
-    public List<Student> findAll() {
-        List<Student> students = new ArrayList<>();
+    public List<User> findAll() {
+        List<User> users = new ArrayList<>();
         db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), "student-management-db.db4o");
-        ObjectSet<Student> result = db.query(Student.class);
+        ObjectSet<User> result = db.query(User.class);
         while (result.hasNext()) {
-            students.add(result.next());
+            users.add(result.next());
         }
         db.close();
-        return students;
+        return users;
     }
 
     @Override
-    public Student findStudentById(Input input) {
+    public User findStudentById(Input input) {
         return null;
     }
 
     @Override
     public Output createStudent(CreateStudentInput input) {
-        Student student = modelMapper.map(input, Student.class);
+        User user = modelMapper.map(input, User.class);
         db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), "student-management-db.db4o");
-        db.store(student);
+        db.store(user);
         db.close();
         return new Output(CommonConstant.TRUE, CommonConstant.EMPTY_STRING);
     }
