@@ -5,6 +5,7 @@ import com.pmmnm.StudentManagement.application.input.classroom.AddTeacherToClass
 import com.pmmnm.StudentManagement.application.input.classroom.CreateClassroomInput;
 import com.pmmnm.StudentManagement.application.input.classroom.UpdateClassroomInput;
 import com.pmmnm.StudentManagement.application.input.commons.Input;
+import com.pmmnm.StudentManagement.application.output.classroom.DetailClassroomOutput;
 import com.pmmnm.StudentManagement.application.output.common.Output;
 import com.pmmnm.StudentManagement.domain.entity.Classroom;
 import com.pmmnm.StudentManagement.domain.entity.User;
@@ -15,7 +16,7 @@ public interface IClassroomService {
 
     List<Classroom> findAll();
 
-    Classroom findClassroomById(Input input);
+    DetailClassroomOutput getDetailClassroom(Input input);
 
     Output createClassroom(CreateClassroomInput input);
 

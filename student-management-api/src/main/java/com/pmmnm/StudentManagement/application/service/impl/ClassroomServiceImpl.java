@@ -8,6 +8,8 @@ import com.pmmnm.StudentManagement.application.input.classroom.AddTeacherToClass
 import com.pmmnm.StudentManagement.application.input.classroom.CreateClassroomInput;
 import com.pmmnm.StudentManagement.application.input.classroom.UpdateClassroomInput;
 import com.pmmnm.StudentManagement.application.input.commons.Input;
+import com.pmmnm.StudentManagement.application.output.classroom.DetailClassroomOutput;
+import com.pmmnm.StudentManagement.application.output.classroom.UserPointOutput;
 import com.pmmnm.StudentManagement.application.output.common.Output;
 import com.pmmnm.StudentManagement.application.repository.ClassroomRepository;
 import com.pmmnm.StudentManagement.application.repository.UserClassroomRepository;
@@ -20,6 +22,7 @@ import com.pmmnm.StudentManagement.domain.entity.UserClassroom;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.pmmnm.StudentManagement.application.service.impl.UserServiceImpl.checkUserExists;
@@ -45,10 +48,19 @@ public class ClassroomServiceImpl implements IClassroomService {
     }
 
     @Override
-    public Classroom findClassroomById(Input input) {
+    public DetailClassroomOutput getDetailClassroom(Input input) {
         Classroom classroom = classroomRepository.findById(input.getId());
         checkClassroomExists(classroom);
-        return classroom;
+        DetailClassroomOutput detailClassroomOutput = modelMapper.map(classroom, DetailClassroomOutput.class);
+        List<UserClassroom> userClassrooms = userClassroomRepository.findByIdClassroom(input.getId());
+        List<UserPointOutput> userPointOutputs = new ArrayList<>();
+        for (UserClassroom userClassroom : userClassrooms) {
+            User user = userRepository.findById(userClassroom.getIdUser());
+            UserPointOutput userPointOutput = new UserPointOutput(user.getId(), user.getName(), userClassroom.getScore());
+            userPointOutputs.add(userPointOutput);
+        }
+        detailClassroomOutput.setUserPointOutputList(userPointOutputs);
+        return detailClassroomOutput;
     }
 
     @Override
@@ -85,13 +97,13 @@ public class ClassroomServiceImpl implements IClassroomService {
 
         User user = userRepository.findById(idUser);
         checkUserExists(user);
-        boolean isUserAlreadyInClass = userClassroomRepository.isUserAlreadyClass(idClassroom, idUser);
-        if (isUserAlreadyInClass) {
+        UserClassroom userClassroom = userClassroomRepository.findById(idClassroom, idUser);
+        if (userClassroom != null) {
             return new Output(CommonConstant.TRUE, MessageConstant.STUDENT_ALREADY_IN_CLASS);
         }
 
         if (user.getRole().equals(RoleConstant.STUDENT)) {
-            UserClassroom userClassroom = new UserClassroom(idClassroom, idUser);
+            userClassroom = new UserClassroom(idClassroom, idUser);
             userClassroomRepository.save(userClassroom);
             return new Output(CommonConstant.TRUE, MessageConstant.ADD_STUDENT_TO_CLASSROOM_SUCCESS);
         }

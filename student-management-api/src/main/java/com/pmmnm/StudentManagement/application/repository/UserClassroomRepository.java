@@ -2,6 +2,7 @@ package com.pmmnm.StudentManagement.application.repository;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
+import com.pmmnm.StudentManagement.domain.entity.Classroom;
 import com.pmmnm.StudentManagement.domain.entity.User;
 import com.pmmnm.StudentManagement.domain.entity.UserClassroom;
 import org.springframework.stereotype.Repository;
@@ -17,9 +18,11 @@ public class UserClassroomRepository {
     private final ObjectContainer db = getObjectContainer();
 
     private final UserRepository userRepository;
+    private final ClassroomRepository classroomRepository;
 
-    public UserClassroomRepository(UserRepository userRepository) {
+    public UserClassroomRepository(UserRepository userRepository, ClassroomRepository classroomRepository) {
         this.userRepository = userRepository;
+        this.classroomRepository = classroomRepository;
     }
 
     public void save(UserClassroom userClassroom) {
@@ -30,16 +33,23 @@ public class UserClassroomRepository {
         db.delete(userClassroom);
     }
 
-    public List<UserClassroom> findAll() {
-        List<UserClassroom> userClassroomList = new ArrayList<>();
-        ObjectSet<UserClassroom> result = db.query(UserClassroom.class);
-        return listUserClass(result);
+
+    public UserClassroom findById(String idClassroom, String idUser) {
+        UserClassroom userClassroom = new UserClassroom(idClassroom, idUser);
+        ObjectSet<UserClassroom> result = db.queryByExample(userClassroom);
+        return result.hasNext() ? result.next() : null;
     }
 
-    public boolean isUserAlreadyClass(String idClassRoom, String idUser) {
-        UserClassroom userClassroom = new UserClassroom(idClassRoom, idUser);
-        ObjectSet<User> result = db.queryByExample(userClassroom);
-        return result.hasNext();
+
+    public List<UserClassroom> findByIdClassroom(String idClassroom) {
+        UserClassroom userClassroom = new UserClassroom();
+        userClassroom.setIdClassroom(idClassroom);
+        ObjectSet<UserClassroom> result = db.queryByExample(userClassroom);
+        List<UserClassroom> userClassrooms = new ArrayList<>();
+        while (result.hasNext()) {
+            userClassrooms.add(result.next());
+        }
+        return userClassrooms;
     }
 
     public List<User> getListStudentInClass(String idClassroom) {
@@ -53,11 +63,15 @@ public class UserClassroomRepository {
         return users;
     }
 
-    public List<UserClassroom> getListClassOfUser(String idUser) {
+    public List<Classroom> getListClassOfUser(String idUser) {
         UserClassroom userClassroom = new UserClassroom();
         userClassroom.setIdUser(idUser);
         ObjectSet<UserClassroom> result = db.queryByExample(userClassroom);
-        return listUserClass(result);
+        List<Classroom> classrooms = new ArrayList<>();
+        while (result.hasNext()) {
+            classrooms.add(classroomRepository.findById(result.next().getIdClassroom()));
+        }
+        return classrooms;
     }
 
 
