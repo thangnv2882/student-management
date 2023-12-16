@@ -8,5 +8,6 @@ public class MessageConstant {
   public static final String ADD_STUDENT_TO_CLASSROOM_SUCCESS = "Add student to classroom success";
   public static final String NO_STUDENT_ADDED_TO_CLASSROOM = "No student have been added to the class";
   public static final String STUDENT_ALREADY_IN_CLASS = "Student already in class";
+  public static final String STUDENT_NOT_IN_CLASS = "Student not in class";
   public static final String TEACHER_NOT_EXISTS = "Teacher not exists";
 }

@@ -6,11 +6,13 @@ import com.pmmnm.StudentManagement.adapter.web.base.VsResponseUtil;
 import com.pmmnm.StudentManagement.application.constants.UrlConstant;
 import com.pmmnm.StudentManagement.application.input.commons.Input;
 import com.pmmnm.StudentManagement.application.input.user.CreateUserInput;
+import com.pmmnm.StudentManagement.application.input.user.EnterScoreInput;
 import com.pmmnm.StudentManagement.application.input.user.LoginInput;
 import com.pmmnm.StudentManagement.application.input.user.UpdateUserInput;
 import com.pmmnm.StudentManagement.application.output.common.Output;
 import com.pmmnm.StudentManagement.application.service.IUserService;
 import com.pmmnm.StudentManagement.domain.entity.User;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,12 +28,14 @@ public class UserController {
     }
 
 
+    @Operation(summary = "API Login")
     @PostMapping(UrlConstant.Auth.LOGIN)
-    public ResponseEntity<?> createAuth(@RequestBody LoginInput input) {
+    public ResponseEntity<?> login(@RequestBody LoginInput input) {
         User user = userService.login(input);
         return VsResponseUtil.ok(user);
     }
 
+    @Operation(summary = "API Get List User")
     @GetMapping(UrlConstant.User.GET_ALL)
     public ResponseEntity<RestData<?>> getUsers() {
         List<User> output = userService.findAll();
@@ -39,24 +43,28 @@ public class UserController {
     }
 
 
+    @Operation(summary = "API Get User By Id")
     @GetMapping(UrlConstant.User.GET)
     public ResponseEntity<?> getUserById(@PathVariable("idUser") String idUser) {
         Input input = new Input(idUser);
         return VsResponseUtil.ok(userService.findUserById(input));
     }
 
+    @Operation(summary = "API Create User")
     @PostMapping(UrlConstant.User.CREATE)
     public ResponseEntity<?> createUser(@RequestBody CreateUserInput input) {
         Output output = userService.createUser(input);
         return VsResponseUtil.ok(output);
     }
 
+    @Operation(summary = "API Update User")
     @PatchMapping(UrlConstant.User.UPDATE)
     public ResponseEntity<?> updateUser(@RequestBody UpdateUserInput input) {
         Output output = userService.updateUser(input);
         return VsResponseUtil.ok(output);
     }
 
+    @Operation(summary = "API Delete User")
     @DeleteMapping(UrlConstant.User.DELETE)
     public ResponseEntity<?> deleteUser(@PathVariable("idUser") String idUser) {
         // Create input
@@ -67,4 +75,15 @@ public class UserController {
         return VsResponseUtil.ok(output);
     }
 
+    @Operation(summary = "API Get Class Of Student")
+    @GetMapping(UrlConstant.User.GET_LIST_CLASS_OF_STUDENT)
+    public ResponseEntity<?> getListClassOfStudent(@PathVariable("idUser") String idUser) {
+        return VsResponseUtil.ok(userService.getListClassOfStudent(idUser));
+    }
+
+    @Operation(summary = "API Enter Score")
+    @PostMapping(UrlConstant.User.ENTER_SCORE)
+    public ResponseEntity<?> enterScore(@RequestBody EnterScoreInput input) {
+        return VsResponseUtil.ok(userService.enterScore(input));
+    }
 }
