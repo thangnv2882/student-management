@@ -21,6 +21,8 @@ public class Classroom {
 
     private int creditHour;
 
+    private List<UserClassroom> userClassrooms = new ArrayList<>();
+
     public Classroom(String id) {
         this.id = id;
     }

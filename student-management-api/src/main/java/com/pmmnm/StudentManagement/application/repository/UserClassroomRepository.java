@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.pmmnm.StudentManagement.application.service.impl.ClassroomServiceImpl.checkClassroomExists;
+import static com.pmmnm.StudentManagement.application.service.impl.UserServiceImpl.checkUserExists;
 import static com.pmmnm.StudentManagement.application.utils.DB4OUtil.getObjectContainer;
 
 @Repository
@@ -53,34 +55,25 @@ public class UserClassroomRepository {
     }
 
     public List<User> getListStudentInClass(String idClassroom) {
-        UserClassroom userClassroom = new UserClassroom();
-        userClassroom.setIdClassroom(idClassroom);
-        ObjectSet<UserClassroom> result = db.queryByExample(userClassroom);
+        Classroom classroom = classroomRepository.findById(idClassroom);
+        checkClassroomExists(classroom);
         List<User> users = new ArrayList<>();
-        while (result.hasNext()) {
-            users.add(userRepository.findById(result.next().getIdUser()));
+//        if (userClassrooms != null) {
+        for (UserClassroom userClassroom : classroom.getUserClassrooms()) {
+            users.add(userRepository.findById(userClassroom.getIdUser()));
         }
+//        }
         return users;
     }
 
     public List<Classroom> getListClassOfUser(String idUser) {
-        UserClassroom userClassroom = new UserClassroom();
-        userClassroom.setIdUser(idUser);
-        ObjectSet<UserClassroom> result = db.queryByExample(userClassroom);
+        User user = userRepository.findById(idUser);
+        checkUserExists(user);
         List<Classroom> classrooms = new ArrayList<>();
-        while (result.hasNext()) {
-            classrooms.add(classroomRepository.findById(result.next().getIdClassroom()));
+        for (UserClassroom userClassroom : user.getUserClassrooms()) {
+            classrooms.add(classroomRepository.findById(userClassroom.getIdClassroom()));
         }
         return classrooms;
-    }
-
-
-    public List<UserClassroom> listUserClass(ObjectSet<UserClassroom> result) {
-        List<UserClassroom> userClassroomList = new ArrayList<>();
-        while (result.hasNext()) {
-            userClassroomList.add(result.next());
-        }
-        return userClassroomList;
     }
 
 }

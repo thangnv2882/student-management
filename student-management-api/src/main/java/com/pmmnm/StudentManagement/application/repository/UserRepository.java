@@ -31,10 +31,9 @@ public class UserRepository {
     }
 
     public List<User> findAll() {
+
         List<User> users = new ArrayList<>();
         ObjectSet<User> result = db.query(User.class);
-        ObjectSet<Classroom> result2 = db.query(Classroom.class);
-
         while (result.hasNext()) {
             users.add(result.next());
         }

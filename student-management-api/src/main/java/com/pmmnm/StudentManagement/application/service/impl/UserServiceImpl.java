@@ -61,7 +61,6 @@ public class UserServiceImpl implements IUserService {
             return new Output(CommonConstant.TRUE, MessageConstant.USER_ALREADY_EXISTS);
         }
         user = modelMapper.map(input, User.class);
-        // TODO gen password
         user.setPassword(RandomStringUtils.randomAlphanumeric(6));
         userRepository.save(user);
         return new Output(CommonConstant.TRUE, CommonConstant.CREATED);
@@ -93,10 +92,11 @@ public class UserServiceImpl implements IUserService {
     public Output enterScore(EnterScoreInput input) {
         UserClassroom userClassroom = userClassroomRepository.findById(input.getIdClassroom(), input.getIdStudent());
         if (userClassroom == null) {
-            throw new NotFoundException(MessageConstant.STUDENT_NOT_IN_CLASS);
+            throw new NotFoundException("Student: " + input.getIdStudent() + " not in class " + input.getIdClassroom());
+        } else {
+            userClassroom.setScore(input.getScore());
+            userClassroomRepository.save(userClassroom);
         }
-        userClassroom.setScore(input.getScore());
-        userClassroomRepository.save(userClassroom);
         return new Output(CommonConstant.TRUE, CommonConstant.SUCCESS);
     }
 

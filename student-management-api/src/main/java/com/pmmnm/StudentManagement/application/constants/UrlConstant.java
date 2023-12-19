@@ -37,6 +37,7 @@ public class UrlConstant {
         public static final String ADD_STUDENT_TO_CLASSROOM = PRE_FIX + "/add-student-to-classroom";
         public static final String ADD_TEACHER_TO_CLASSROOM = PRE_FIX + "/add-teacher-to-classroom";
         public static final String GET_LIST_STUDENT_IN_CLASS = PRE_FIX + "/{idClassroom}/students";
+        public static final String IMPORT_SCORE_FROM_CSV = PRE_FIX + "/import-score-from-csv";
 
         private Classroom() {
         }
