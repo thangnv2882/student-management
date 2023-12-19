@@ -4,10 +4,7 @@ import com.pmmnm.StudentManagement.adapter.web.base.RestApiV1;
 import com.pmmnm.StudentManagement.adapter.web.base.RestData;
 import com.pmmnm.StudentManagement.adapter.web.base.VsResponseUtil;
 import com.pmmnm.StudentManagement.application.constants.UrlConstant;
-import com.pmmnm.StudentManagement.application.input.classroom.AddStudentToClassroomInput;
-import com.pmmnm.StudentManagement.application.input.classroom.AddTeacherToClassroomInput;
-import com.pmmnm.StudentManagement.application.input.classroom.CreateClassroomInput;
-import com.pmmnm.StudentManagement.application.input.classroom.UpdateClassroomInput;
+import com.pmmnm.StudentManagement.application.input.classroom.*;
 import com.pmmnm.StudentManagement.application.input.commons.Input;
 import com.pmmnm.StudentManagement.application.output.common.Output;
 import com.pmmnm.StudentManagement.application.service.IClassroomService;
@@ -81,6 +78,13 @@ public class ClassroomController {
     @GetMapping(UrlConstant.Classroom.GET_LIST_STUDENT_IN_CLASS)
     public ResponseEntity<?> getListStudentInClass(@PathVariable("idClassroom") String idClassroom) {
         return VsResponseUtil.ok(classroomService.getListStudentInClass(idClassroom));
+    }
+
+
+    @Operation(summary = "API Import Score From CSV")
+    @PostMapping(UrlConstant.Classroom.IMPORT_SCORE_FROM_CSV)
+    public ResponseEntity<?> importScoreFromCSV(@ModelAttribute ImportScoreFromCSVInput input) {
+        return VsResponseUtil.ok(classroomService.importScoreFromCSV(input));
     }
 
 }
