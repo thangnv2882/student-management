@@ -1,7 +1,5 @@
 package com.pmmnm.StudentManagement.application.service;
 
-import com.pmmnm.StudentManagement.application.input.classroom.AddStudentToClassroomInput;
-import com.pmmnm.StudentManagement.application.input.classroom.AddTeacherToClassroomInput;
 import com.pmmnm.StudentManagement.application.input.classroom.CreateClassroomInput;
 import com.pmmnm.StudentManagement.application.input.classroom.UpdateClassroomInput;
 import com.pmmnm.StudentManagement.application.input.commons.Input;
@@ -23,10 +21,6 @@ public interface IClassroomService {
     Output updateClassroom(UpdateClassroomInput input);
 
     Output deleteClassroom(Input input);
-
-    Output addStudentToClassroom(AddStudentToClassroomInput input);
-
-    Output addTeacherToClassroom(AddTeacherToClassroomInput input);
 
     List<User> getListStudentInClass(String idClassroom);
 

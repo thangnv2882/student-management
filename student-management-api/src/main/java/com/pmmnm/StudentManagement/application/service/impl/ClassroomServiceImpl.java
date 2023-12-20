@@ -1,15 +1,13 @@
 package com.pmmnm.StudentManagement.application.service.impl;
 
+import com.db4o.ObjectSet;
 import com.pmmnm.StudentManagement.application.constants.CommonConstant;
 import com.pmmnm.StudentManagement.application.constants.MessageConstant;
-import com.pmmnm.StudentManagement.application.constants.RoleConstant;
-import com.pmmnm.StudentManagement.application.input.classroom.AddStudentToClassroomInput;
-import com.pmmnm.StudentManagement.application.input.classroom.AddTeacherToClassroomInput;
 import com.pmmnm.StudentManagement.application.input.classroom.CreateClassroomInput;
 import com.pmmnm.StudentManagement.application.input.classroom.UpdateClassroomInput;
 import com.pmmnm.StudentManagement.application.input.commons.Input;
 import com.pmmnm.StudentManagement.application.output.classroom.DetailClassroomOutput;
-import com.pmmnm.StudentManagement.application.output.classroom.UserPointOutput;
+import com.pmmnm.StudentManagement.application.output.classroom.UserScoreOutput;
 import com.pmmnm.StudentManagement.application.output.common.Output;
 import com.pmmnm.StudentManagement.application.repository.ClassroomRepository;
 import com.pmmnm.StudentManagement.application.repository.UserClassroomRepository;
@@ -24,8 +22,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.pmmnm.StudentManagement.application.service.impl.UserServiceImpl.checkUserExists;
 
 @Service
 public class ClassroomServiceImpl implements IClassroomService {
@@ -52,20 +48,24 @@ public class ClassroomServiceImpl implements IClassroomService {
         Classroom classroom = classroomRepository.findById(input.getId());
         checkClassroomExists(classroom);
         DetailClassroomOutput detailClassroomOutput = modelMapper.map(classroom, DetailClassroomOutput.class);
+        List<UserScoreOutput> userScoreOutputs = new ArrayList<>();
         List<UserClassroom> userClassrooms = userClassroomRepository.findByIdClassroom(input.getId());
-        List<UserPointOutput> userPointOutputs = new ArrayList<>();
         for (UserClassroom userClassroom : userClassrooms) {
             User user = userRepository.findById(userClassroom.getIdUser());
-            UserPointOutput userPointOutput = new UserPointOutput(user.getId(), user.getName(), userClassroom.getScore());
-            userPointOutputs.add(userPointOutput);
+            UserScoreOutput userScoreOutput = new UserScoreOutput(user.getId(), user.getName(), userClassroom.getScore());
+            userScoreOutputs.add(userScoreOutput);
         }
-        detailClassroomOutput.setUserPointOutputList(userPointOutputs);
+        detailClassroomOutput.setUserScoreOutputList(userScoreOutputs);
         return detailClassroomOutput;
     }
 
     @Override
     public Output createClassroom(CreateClassroomInput input) {
-        Classroom classroom = modelMapper.map(input, Classroom.class);
+        Classroom classroom = classroomRepository.findById(input.getId());
+        if (classroom != null) {
+            return new Output(CommonConstant.TRUE, MessageConstant.CLASSROOM_ALREADY_EXISTS);
+        }
+        classroom = modelMapper.map(input, Classroom.class);
         classroomRepository.save(classroom);
         return new Output(CommonConstant.TRUE, CommonConstant.CREATED);
     }
@@ -88,44 +88,15 @@ public class ClassroomServiceImpl implements IClassroomService {
     }
 
     @Override
-    public Output addStudentToClassroom(AddStudentToClassroomInput input) {
-        String idClassroom = input.getIdClassroom();
-        String idUser = input.getIdUser();
-
-        Classroom classroom = classroomRepository.findById(idClassroom);
-        checkClassroomExists(classroom);
-
-        User user = userRepository.findById(idUser);
-        checkUserExists(user);
-        UserClassroom userClassroom = userClassroomRepository.findById(idClassroom, idUser);
-        if (userClassroom != null) {
-            return new Output(CommonConstant.TRUE, MessageConstant.STUDENT_ALREADY_IN_CLASS);
-        }
-
-        if (user.getRole().equals(RoleConstant.STUDENT)) {
-            userClassroom = new UserClassroom(idClassroom, idUser);
-            userClassroomRepository.save(userClassroom);
-            return new Output(CommonConstant.TRUE, MessageConstant.ADD_STUDENT_TO_CLASSROOM_SUCCESS);
-        }
-        return new Output(CommonConstant.TRUE, MessageConstant.NO_STUDENT_ADDED_TO_CLASSROOM);
-    }
-
-    @Override
-    public Output addTeacherToClassroom(AddTeacherToClassroomInput input) {
-        Classroom classroom = classroomRepository.findById(input.getIdClassroom());
-        checkClassroomExists(classroom);
-        User user = userRepository.findById(input.getIdTeacher());
-        if (user != null && user.getRole().equals(RoleConstant.TEACHER)) {
-            classroom.setTeacherId(user.getId());
-            classroomRepository.save(classroom);
-            return new Output(CommonConstant.TRUE, MessageConstant.ADD_TEACHER_TO_CLASSROOM_SUCCESS);
-        }
-        throw new NotFoundException(MessageConstant.TEACHER_NOT_EXISTS);
-    }
-
-    @Override
     public List<User> getListStudentInClass(String idClassroom) {
-        return userClassroomRepository.getListStudentInClass(idClassroom);
+        UserClassroom userClassroom = new UserClassroom();
+        userClassroom.setIdClassroom(idClassroom);
+        ObjectSet<UserClassroom> result = userClassroomRepository.findByExample(userClassroom);
+        List<User> users = new ArrayList<>();
+        while (result.hasNext()) {
+            users.add(userRepository.findById(result.next().getIdUser()));
+        }
+        return users;
     }
 
 

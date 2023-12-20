@@ -22,6 +22,6 @@ public class DetailClassroomOutput {
 
     private String creditHour;
 
-    private List<UserPointOutput> userPointOutputList = new ArrayList<>();
+    private List<UserScoreOutput> userScoreOutputList = new ArrayList<>();
 
 }
