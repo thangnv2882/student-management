@@ -1,20 +1,21 @@
-package com.pmmnm.StudentManagement.application.input.user;
+package com.pmmnm.StudentManagement.application.input.userClassroom;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EnterScoreInput {
+public class AddStudentToClassroomInput {
 
     private String idClassroom;
 
-    private String idStudent;
-
-    private Integer score;
+    private String idUser;
 
 }

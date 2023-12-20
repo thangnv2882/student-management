@@ -2,7 +2,6 @@ package com.pmmnm.StudentManagement.application.repository;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
-import com.pmmnm.StudentManagement.domain.entity.Classroom;
 import com.pmmnm.StudentManagement.domain.entity.User;
 import org.springframework.stereotype.Repository;
 
@@ -31,7 +30,6 @@ public class UserRepository {
     }
 
     public List<User> findAll() {
-
         List<User> users = new ArrayList<>();
         ObjectSet<User> result = db.query(User.class);
         while (result.hasNext()) {

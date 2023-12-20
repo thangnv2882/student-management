@@ -2,8 +2,6 @@ package com.pmmnm.StudentManagement.application.repository;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
-import com.pmmnm.StudentManagement.domain.entity.Classroom;
-import com.pmmnm.StudentManagement.domain.entity.User;
 import com.pmmnm.StudentManagement.domain.entity.UserClassroom;
 import org.springframework.stereotype.Repository;
 
@@ -18,14 +16,6 @@ import static com.pmmnm.StudentManagement.application.utils.DB4OUtil.getObjectCo
 public class UserClassroomRepository {
 
     private final ObjectContainer db = getObjectContainer();
-
-    private final UserRepository userRepository;
-    private final ClassroomRepository classroomRepository;
-
-    public UserClassroomRepository(UserRepository userRepository, ClassroomRepository classroomRepository) {
-        this.userRepository = userRepository;
-        this.classroomRepository = classroomRepository;
-    }
 
     public void save(UserClassroom userClassroom) {
         db.store(userClassroom);
@@ -54,26 +44,8 @@ public class UserClassroomRepository {
         return userClassrooms;
     }
 
-    public List<User> getListStudentInClass(String idClassroom) {
-        Classroom classroom = classroomRepository.findById(idClassroom);
-        checkClassroomExists(classroom);
-        List<User> users = new ArrayList<>();
-//        if (userClassrooms != null) {
-        for (UserClassroom userClassroom : classroom.getUserClassrooms()) {
-            users.add(userRepository.findById(userClassroom.getIdUser()));
-        }
-//        }
-        return users;
-    }
-
-    public List<Classroom> getListClassOfUser(String idUser) {
-        User user = userRepository.findById(idUser);
-        checkUserExists(user);
-        List<Classroom> classrooms = new ArrayList<>();
-        for (UserClassroom userClassroom : user.getUserClassrooms()) {
-            classrooms.add(classroomRepository.findById(userClassroom.getIdClassroom()));
-        }
-        return classrooms;
+    public ObjectSet<UserClassroom> findByExample(UserClassroom userClassroom) {
+        return db.queryByExample(userClassroom);
     }
 
 }

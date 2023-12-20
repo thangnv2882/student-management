@@ -2,7 +2,6 @@ package com.pmmnm.StudentManagement.application.service;
 
 import com.pmmnm.StudentManagement.application.input.commons.Input;
 import com.pmmnm.StudentManagement.application.input.user.CreateUserInput;
-import com.pmmnm.StudentManagement.application.input.user.EnterScoreInput;
 import com.pmmnm.StudentManagement.application.input.user.LoginInput;
 import com.pmmnm.StudentManagement.application.input.user.UpdateUserInput;
 import com.pmmnm.StudentManagement.application.output.common.Output;
@@ -26,7 +25,5 @@ public interface IUserService {
     Output deleteUser(Input input);
 
     List<Classroom> getListClassOfStudent(String idUser);
-
-    Output enterScore(EnterScoreInput input);
 
 }

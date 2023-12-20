@@ -9,12 +9,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserPointOutput {
+public class UserScoreOutput {
 
     private String id;
 
     private String name;
 
-    private Integer point;
+    private Integer score;
 
 }

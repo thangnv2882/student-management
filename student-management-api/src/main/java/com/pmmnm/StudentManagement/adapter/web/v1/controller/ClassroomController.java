@@ -60,31 +60,11 @@ public class ClassroomController {
         return VsResponseUtil.ok(output);
     }
 
-    @Operation(summary = "API Add Student To Classroom")
-    @PostMapping(UrlConstant.Classroom.ADD_STUDENT_TO_CLASSROOM)
-    public ResponseEntity<?> addStudentToClassroom(@RequestBody AddStudentToClassroomInput input) {
-        Output output = classroomService.addStudentToClassroom(input);
-        return VsResponseUtil.ok(output);
-    }
-
-    @Operation(summary = "API Add Teacher To Classroom")
-    @PostMapping(UrlConstant.Classroom.ADD_TEACHER_TO_CLASSROOM)
-    public ResponseEntity<?> addTeacherToClassroom(@RequestBody AddTeacherToClassroomInput input) {
-        Output output = classroomService.addTeacherToClassroom(input);
-        return VsResponseUtil.ok(output);
-    }
 
     @Operation(summary = "API Get List Student In Classroom")
     @GetMapping(UrlConstant.Classroom.GET_LIST_STUDENT_IN_CLASS)
     public ResponseEntity<?> getListStudentInClass(@PathVariable("idClassroom") String idClassroom) {
         return VsResponseUtil.ok(classroomService.getListStudentInClass(idClassroom));
-    }
-
-
-    @Operation(summary = "API Import Score From CSV")
-    @PostMapping(UrlConstant.Classroom.IMPORT_SCORE_FROM_CSV)
-    public ResponseEntity<?> importScoreFromCSV(@ModelAttribute ImportScoreFromCSVInput input) {
-        return VsResponseUtil.ok(classroomService.importScoreFromCSV(input));
     }
 
 }
