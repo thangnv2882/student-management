@@ -13,7 +13,6 @@ import com.pmmnm.StudentManagement.application.repository.ClassroomRepository;
 import com.pmmnm.StudentManagement.application.repository.UserClassroomRepository;
 import com.pmmnm.StudentManagement.application.repository.UserRepository;
 import com.pmmnm.StudentManagement.application.service.IClassroomService;
-import com.pmmnm.StudentManagement.application.service.IUserService;
 import com.pmmnm.StudentManagement.config.exception.NotFoundException;
 import com.pmmnm.StudentManagement.domain.entity.Classroom;
 import com.pmmnm.StudentManagement.domain.entity.User;
@@ -30,14 +29,12 @@ public class ClassroomServiceImpl implements IClassroomService {
     private final ClassroomRepository classroomRepository;
     private final UserRepository userRepository;
     private final UserClassroomRepository userClassroomRepository;
-    private final IUserService userService;
     private final ModelMapper modelMapper;
 
-    public ClassroomServiceImpl(ClassroomRepository classroomRepository, UserRepository userRepository, UserClassroomRepository userClassroomRepository, IUserService userService, ModelMapper modelMapper) {
+    public ClassroomServiceImpl(ClassroomRepository classroomRepository, UserRepository userRepository, UserClassroomRepository userClassroomRepository, ModelMapper modelMapper) {
         this.classroomRepository = classroomRepository;
         this.userRepository = userRepository;
         this.userClassroomRepository = userClassroomRepository;
-        this.userService = userService;
         this.modelMapper = modelMapper;
     }
 
