@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.pmmnm.StudentManagement.application.service.impl.ClassroomServiceImpl.checkClassroomExists;
+import static com.pmmnm.StudentManagement.application.service.impl.UserServiceImpl.checkUserExists;
 import static com.pmmnm.StudentManagement.application.utils.DB4OUtil.getObjectContainer;
 
 @Repository

@@ -87,7 +87,6 @@ public class ClassroomServiceImpl implements IClassroomService {
         return new Output(CommonConstant.TRUE, CommonConstant.DELETED);
     }
 
-
     @Override
     public List<User> getListStudentInClass(String idClassroom) {
         UserClassroom userClassroom = new UserClassroom();
