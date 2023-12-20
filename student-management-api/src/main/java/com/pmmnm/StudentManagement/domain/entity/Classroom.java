@@ -5,9 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Setter
 @Getter
 @NoArgsConstructor
@@ -20,8 +17,6 @@ public class Classroom {
     private String teacherId;
 
     private int creditHour;
-
-    private List<UserClassroom> userClassrooms = new ArrayList<>();
 
     public Classroom(String id) {
         this.id = id;

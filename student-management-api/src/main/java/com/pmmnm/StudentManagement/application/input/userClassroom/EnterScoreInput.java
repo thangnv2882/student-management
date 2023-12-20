@@ -1,20 +1,20 @@
-package com.pmmnm.StudentManagement.application.input.classroom;
+package com.pmmnm.StudentManagement.application.input.userClassroom;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
-
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImportScoreFromCSVInput {
+public class EnterScoreInput {
 
     private String idClassroom;
 
-    private MultipartFile file;
+    private String idStudent;
+
+    private Integer score;
 
 }

@@ -1,13 +1,14 @@
 package com.pmmnm.StudentManagement.application.service.impl;
 
+import com.db4o.ObjectSet;
 import com.pmmnm.StudentManagement.application.constants.CommonConstant;
 import com.pmmnm.StudentManagement.application.constants.MessageConstant;
 import com.pmmnm.StudentManagement.application.input.commons.Input;
 import com.pmmnm.StudentManagement.application.input.user.CreateUserInput;
-import com.pmmnm.StudentManagement.application.input.user.EnterScoreInput;
 import com.pmmnm.StudentManagement.application.input.user.LoginInput;
 import com.pmmnm.StudentManagement.application.input.user.UpdateUserInput;
 import com.pmmnm.StudentManagement.application.output.common.Output;
+import com.pmmnm.StudentManagement.application.repository.ClassroomRepository;
 import com.pmmnm.StudentManagement.application.repository.UserClassroomRepository;
 import com.pmmnm.StudentManagement.application.repository.UserRepository;
 import com.pmmnm.StudentManagement.application.service.IUserService;
@@ -19,17 +20,20 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements IUserService {
 
     private final UserRepository userRepository;
+    private final ClassroomRepository classroomRepository;
     private final UserClassroomRepository userClassroomRepository;
     private final ModelMapper modelMapper;
 
-    public UserServiceImpl(UserRepository userRepository, UserClassroomRepository userClassroomRepository, ModelMapper modelMapper) {
+    public UserServiceImpl(UserRepository userRepository, ClassroomRepository classroomRepository, UserClassroomRepository userClassroomRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
+        this.classroomRepository = classroomRepository;
         this.userClassroomRepository = userClassroomRepository;
         this.modelMapper = modelMapper;
     }
@@ -85,21 +89,15 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public List<Classroom> getListClassOfStudent(String idUser) {
-        return userClassroomRepository.getListClassOfUser(idUser);
-    }
-
-    @Override
-    public Output enterScore(EnterScoreInput input) {
-        UserClassroom userClassroom = userClassroomRepository.findById(input.getIdClassroom(), input.getIdStudent());
-        if (userClassroom == null) {
-            throw new NotFoundException("Student: " + input.getIdStudent() + " not in class " + input.getIdClassroom());
-        } else {
-            userClassroom.setScore(input.getScore());
-            userClassroomRepository.save(userClassroom);
+        UserClassroom userClassroom = new UserClassroom();
+        userClassroom.setIdUser(idUser);
+        ObjectSet<UserClassroom> result = userClassroomRepository.findByExample(userClassroom);
+        List<Classroom> classrooms = new ArrayList<>();
+        while (result.hasNext()) {
+            classrooms.add(classroomRepository.findById(result.next().getIdClassroom()));
         }
-        return new Output(CommonConstant.TRUE, CommonConstant.SUCCESS);
+        return classrooms;
     }
-
 
     public static void checkUserExists(User user) {
         if (user == null) {

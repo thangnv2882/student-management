@@ -5,9 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Setter
 @Getter
 @NoArgsConstructor
@@ -24,8 +21,6 @@ public class User {
     private String role;
 
     private String avatar;
-
-    private List<UserClassroom> userClassrooms = new ArrayList<>();
 
     public User(String id) {
         this.id = id;

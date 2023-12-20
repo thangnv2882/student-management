@@ -6,7 +6,6 @@ import com.pmmnm.StudentManagement.adapter.web.base.VsResponseUtil;
 import com.pmmnm.StudentManagement.application.constants.UrlConstant;
 import com.pmmnm.StudentManagement.application.input.commons.Input;
 import com.pmmnm.StudentManagement.application.input.user.CreateUserInput;
-import com.pmmnm.StudentManagement.application.input.user.EnterScoreInput;
 import com.pmmnm.StudentManagement.application.input.user.LoginInput;
 import com.pmmnm.StudentManagement.application.input.user.UpdateUserInput;
 import com.pmmnm.StudentManagement.application.output.common.Output;
@@ -67,11 +66,8 @@ public class UserController {
     @Operation(summary = "API Delete User")
     @DeleteMapping(UrlConstant.User.DELETE)
     public ResponseEntity<?> deleteUser(@PathVariable("idUser") String idUser) {
-        // Create input
         Input input = new Input(idUser);
-        // Get output
         Output output = userService.deleteUser(input);
-        // Return output
         return VsResponseUtil.ok(output);
     }
 
@@ -81,9 +77,4 @@ public class UserController {
         return VsResponseUtil.ok(userService.getListClassOfStudent(idUser));
     }
 
-    @Operation(summary = "API Enter Score")
-    @PostMapping(UrlConstant.User.ENTER_SCORE)
-    public ResponseEntity<?> enterScore(@RequestBody EnterScoreInput input) {
-        return VsResponseUtil.ok(userService.enterScore(input));
-    }
 }
