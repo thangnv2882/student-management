@@ -20,8 +20,6 @@ public class User {
 
     private String role;
 
-    private String avatar;
-
     public User(String id) {
         this.id = id;
     }

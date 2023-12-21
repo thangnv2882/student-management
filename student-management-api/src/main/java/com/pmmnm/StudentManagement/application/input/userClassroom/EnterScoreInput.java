@@ -15,6 +15,6 @@ public class EnterScoreInput {
 
     private String idStudent;
 
-    private Integer score;
+    private Double score;
 
 }

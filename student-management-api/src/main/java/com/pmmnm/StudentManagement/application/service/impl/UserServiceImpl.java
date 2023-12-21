@@ -83,7 +83,16 @@ public class UserServiceImpl implements IUserService {
     public Output deleteUser(Input input) {
         User user = userRepository.findById(input.getId());
         checkUserExists(user);
+        // Remove user
         userRepository.delete(user);
+
+        // Remove user classroom
+        UserClassroom userClassroom = new UserClassroom();
+        userClassroom.setIdUser(input.getId());
+        ObjectSet<UserClassroom> userClassrooms = userClassroomRepository.findByExample(userClassroom);
+        while (userClassrooms.hasNext()) {
+            userClassroomRepository.delete(userClassrooms.next());
+        }
         return new Output(CommonConstant.TRUE, CommonConstant.DELETED);
     }
 

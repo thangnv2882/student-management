@@ -15,7 +15,7 @@ public class UserClassroom {
 
     private String idUser;
 
-    private Integer score;
+    private Double score;
 
     public UserClassroom(String idClassroom, String idUser) {
         this.idClassroom = idClassroom;

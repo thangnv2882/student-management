@@ -20,7 +20,7 @@ public class DetailClassroomOutput {
 
     private String teacherId;
 
-    private String creditHour;
+    private int creditHour;
 
     private List<UserScoreOutput> userScoreOutputList = new ArrayList<>();
 

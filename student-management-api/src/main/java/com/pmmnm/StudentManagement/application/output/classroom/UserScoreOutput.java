@@ -15,6 +15,6 @@ public class UserScoreOutput {
 
     private String name;
 
-    private Integer score;
+    private Double score;
 
 }

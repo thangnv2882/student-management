@@ -6,6 +6,7 @@ import com.pmmnm.StudentManagement.application.output.common.Output;
 public interface IUserClassroomService {
 
     Output addStudentToClassroom(AddStudentToClassroomInput input);
+
     Output removeStudentFromClassroom(RemoveStudentFromClassroomInput input);
 
     Output addTeacherToClassroom(AddTeacherToClassroomInput input);

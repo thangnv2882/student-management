@@ -82,8 +82,18 @@ public class ClassroomServiceImpl implements IClassroomService {
     @Override
     public Output deleteClassroom(Input input) {
         Classroom classroom = classroomRepository.findById(input.getId());
+        // Remove classroom
         checkClassroomExists(classroom);
         classroomRepository.delete(classroom);
+
+        // Remove user classroom
+        UserClassroom userClassroom = new UserClassroom();
+        userClassroom.setIdClassroom(input.getId());
+        ObjectSet<UserClassroom> userClassrooms = userClassroomRepository.findByExample(userClassroom);
+        System.out.println("userClassrooms: "+ userClassrooms);
+        while (userClassrooms.hasNext()) {
+            userClassroomRepository.delete(userClassrooms.next());
+        }
         return new Output(CommonConstant.TRUE, CommonConstant.DELETED);
     }
 

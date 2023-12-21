@@ -20,6 +20,4 @@ public class UpdateUserInput {
 
     private String email;
 
-    private String avatar;
-
 }

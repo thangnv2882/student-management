@@ -105,18 +105,20 @@ public class UserClassroomServiceImpl implements IUserClassroomService {
     @Override
     public Output importScoreFromCSV(ImportScoreFromCSVInput input) {
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(input.getFile().getInputStream(), StandardCharsets.UTF_8));
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(input.getFile().getInputStream(), StandardCharsets.UTF_8));
             String line;
             br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
                 String idStudent = values[0];
-                Integer score;
+                Double score;
                 if (values.length == 3) {
-                    score = Integer.valueOf(values[2]);
+                    score = Double.valueOf(values[2]);
                 } else {
                     score = null;
                 }
+                System.out.println(score);
                 EnterScoreInput enterScoreInput = new EnterScoreInput(input.getIdClassroom(), idStudent, score);
                 enterScore(enterScoreInput);
             }

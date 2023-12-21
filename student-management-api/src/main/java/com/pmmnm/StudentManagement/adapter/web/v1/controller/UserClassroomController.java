@@ -37,8 +37,8 @@ public class UserClassroomController {
 
     @Operation(summary = "API Add Teacher To Classroom")
     @PostMapping(UrlConstant.UserClassroom.ADD_TEACHER_TO_CLASSROOM)
-    public ResponseEntity<?> removeStudentFromClassroom(@RequestBody RemoveStudentFromClassroomInput input) {
-        Output output = userClassroomService.removeStudentFromClassroom(input);
+    public ResponseEntity<?> removeStudentFromClassroom(@RequestBody AddTeacherToClassroomInput input) {
+        Output output = userClassroomService.addTeacherToClassroom(input);
         return VsResponseUtil.ok(output);
     }
 
