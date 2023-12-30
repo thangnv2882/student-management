@@ -24,8 +24,8 @@ public class ClassroomRepository {
     }
 
     public List<Classroom> findAll() {
-        List<Classroom> classrooms = new ArrayList<>();
         ObjectSet<Classroom> result = db.query(Classroom.class);
+        List<Classroom> classrooms = new ArrayList<>();
         while (result.hasNext()) {
             classrooms.add(result.next());
         }

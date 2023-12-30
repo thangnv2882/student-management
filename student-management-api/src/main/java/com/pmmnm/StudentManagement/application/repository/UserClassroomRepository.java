@@ -2,14 +2,14 @@ package com.pmmnm.StudentManagement.application.repository;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
+import com.db4o.query.Predicate;
+import com.db4o.query.Query;
 import com.pmmnm.StudentManagement.domain.entity.UserClassroom;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.pmmnm.StudentManagement.application.service.impl.ClassroomServiceImpl.checkClassroomExists;
-import static com.pmmnm.StudentManagement.application.service.impl.UserServiceImpl.checkUserExists;
 import static com.pmmnm.StudentManagement.application.utils.DB4OUtil.getObjectContainer;
 
 @Repository
@@ -27,9 +27,26 @@ public class UserClassroomRepository {
 
 
     public UserClassroom findById(String idClassroom, String idUser) {
+//        QBE
         UserClassroom userClassroom = new UserClassroom(idClassroom, idUser);
         ObjectSet<UserClassroom> result = db.queryByExample(userClassroom);
         return result.hasNext() ? result.next() : null;
+
+//        Native query
+//        List<UserClassroom> userClassrooms = db.query(new Predicate<UserClassroom>() {
+//            public boolean match(UserClassroom userClassroom) {
+//                return userClassroom.getIdClassroom().equals(idClassroom) && userClassroom.getIdUser().equals(idUser);
+//            }
+//        });
+//        return userClassrooms.isEmpty() ? null : userClassrooms.get(0);
+
+//        SODA query
+//        Query query = db.query();
+//        query.constrain(UserClassroom.class);
+//        query.descend("idClassroom").constrain(idClassroom);
+//        query.descend("idUser").constrain(idUser);
+//        ObjectSet<UserClassroom> result = query.execute();
+//        return result.hasNext() ? result.next() : null;
     }
 
 
