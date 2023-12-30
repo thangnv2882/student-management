@@ -2,6 +2,8 @@ package com.pmmnm.StudentManagement.application.repository;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
+import com.db4o.query.Predicate;
+import com.db4o.query.Query;
 import com.pmmnm.StudentManagement.domain.entity.User;
 import org.springframework.stereotype.Repository;
 
@@ -39,8 +41,27 @@ public class UserRepository {
     }
 
     public User findById(String id) {
+//        Query By Example
+        System.out.println("Query By Example");
         User user = new User(id);
         ObjectSet<User> result = db.queryByExample(user);
         return result.hasNext() ? result.next() : null;
+
+//        Native query
+//        System.out.println("Native query");
+//        List<User> userClassrooms = db.query(new Predicate<User>() {
+//            public boolean match(User user) {
+//                return user.getId().equals(id);
+//            }
+//        });
+//        return userClassrooms.isEmpty() ? null : userClassrooms.get(0);
+
+//        SODA query
+//        System.out.println("SODA query");
+//        Query query = db.query();
+//        query.constrain(User.class);
+//        query.descend("id").constrain(id);
+//        ObjectSet<User> result = query.execute();
+//        return result.hasNext() ? result.next() : null;
     }
 }
