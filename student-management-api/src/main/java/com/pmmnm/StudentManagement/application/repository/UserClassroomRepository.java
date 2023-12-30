@@ -27,26 +27,9 @@ public class UserClassroomRepository {
 
 
     public UserClassroom findById(String idClassroom, String idUser) {
-//        QBE
         UserClassroom userClassroom = new UserClassroom(idClassroom, idUser);
         ObjectSet<UserClassroom> result = db.queryByExample(userClassroom);
         return result.hasNext() ? result.next() : null;
-
-//        Native query
-//        List<UserClassroom> userClassrooms = db.query(new Predicate<UserClassroom>() {
-//            public boolean match(UserClassroom userClassroom) {
-//                return userClassroom.getIdClassroom().equals(idClassroom) && userClassroom.getIdUser().equals(idUser);
-//            }
-//        });
-//        return userClassrooms.isEmpty() ? null : userClassrooms.get(0);
-
-//        SODA query
-//        Query query = db.query();
-//        query.constrain(UserClassroom.class);
-//        query.descend("idClassroom").constrain(idClassroom);
-//        query.descend("idUser").constrain(idUser);
-//        ObjectSet<UserClassroom> result = query.execute();
-//        return result.hasNext() ? result.next() : null;
     }
 
 
