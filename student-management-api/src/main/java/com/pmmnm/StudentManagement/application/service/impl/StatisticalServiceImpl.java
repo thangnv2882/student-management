@@ -22,6 +22,10 @@ public class StatisticalServiceImpl implements IStatisticalService {
     @Override
     public StatisticalClassroomOutput statisticalByIdClassroom(StatisticalInput input) {
         List<UserClassroom> users = userClassroomRepository.findByIdClassroom(input.getIdClassroom());
+        StatisticalClassroomOutput output = new StatisticalClassroomOutput(0.0, 0, 0.0, 0, 0.0, 0);
+        if (users.isEmpty()) {
+            return output;
+        }
         AtomicInteger amountTypeA = new AtomicInteger();
         AtomicInteger amountTypeB = new AtomicInteger();
         AtomicInteger amountTypeC = new AtomicInteger();
@@ -34,7 +38,6 @@ public class StatisticalServiceImpl implements IStatisticalService {
                 amountTypeC.getAndIncrement();
             }
         });
-        StatisticalClassroomOutput output = new StatisticalClassroomOutput();
         output.setAmountStudentsTypeA(amountTypeA.get());
         output.setAmountStudentsTypeB(amountTypeB.get());
         output.setAmountStudentsTypeC(amountTypeC.get());
