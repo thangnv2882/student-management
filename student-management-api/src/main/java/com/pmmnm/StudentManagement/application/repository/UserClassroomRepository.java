@@ -32,7 +32,6 @@ public class UserClassroomRepository {
         return result.hasNext() ? result.next() : null;
     }
 
-
     public List<UserClassroom> findByIdClassroom(String idClassroom) {
         UserClassroom userClassroom = new UserClassroom();
         userClassroom.setIdClassroom(idClassroom);

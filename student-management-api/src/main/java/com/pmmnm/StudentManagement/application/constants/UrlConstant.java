@@ -42,7 +42,7 @@ public class UrlConstant {
         public static final String GET_ALL = PRE_FIX;
         public static final String GET = PRE_FIX + "/{idNotification}";
         public static final String CREATE = PRE_FIX;
-        public static final String SEND = PRE_FIX + "/{idNotification}/{idUser}";
+        public static final String SEND = PRE_FIX + "/send-notification";
         public static final String UPDATE = PRE_FIX;
         public static final String DELETE = PRE_FIX + "/{idNotification}";
 

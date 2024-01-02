@@ -118,7 +118,6 @@ public class UserClassroomServiceImpl implements IUserClassroomService {
                 } else {
                     score = null;
                 }
-                System.out.println(score);
                 EnterScoreInput enterScoreInput = new EnterScoreInput(input.getIdClassroom(), idStudent, score);
                 enterScore(enterScoreInput);
             }

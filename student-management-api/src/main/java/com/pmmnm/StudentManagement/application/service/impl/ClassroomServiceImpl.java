@@ -90,7 +90,6 @@ public class ClassroomServiceImpl implements IClassroomService {
         UserClassroom userClassroom = new UserClassroom();
         userClassroom.setIdClassroom(input.getId());
         ObjectSet<UserClassroom> userClassrooms = userClassroomRepository.findByExample(userClassroom);
-        System.out.println("userClassrooms: "+ userClassrooms);
         while (userClassrooms.hasNext()) {
             userClassroomRepository.delete(userClassrooms.next());
         }
